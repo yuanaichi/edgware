@@ -24,3 +24,18 @@ export function paddingRight(number, length, prefix) {
     }
     return paddingRight(number+prefix, length, prefix);
 }
+
+export function formatNum(num,n){
+
+    num = String(num.toFixed(n));      
+   var re = /(-?\d+)(\d{3})/;
+
+while(re.test(num)) {
+
+        num = num.replace(re,"$1,$2");
+
+   }
+
+return num;
+
+}

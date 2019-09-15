@@ -2,6 +2,7 @@ import styles from './index.less';
 
 import React, {PureComponent} from 'react';
 import {balances} from '../utils/genesis.json';
+import {formatNum} from '../utils/util';
 
 import {
   NavBar,
@@ -31,10 +32,22 @@ class Index extends PureComponent {
     super(props);
     this.state = {
       publickKey: "",
-      balance: 0
+      balance: 0,
+      totalAddresses: 0,
+      totalAmount: 0,
     };
   }
   componentDidMount() {
+    let totalAmount = 0, totalAddresses = 0;
+    balances.map((b) => {
+      totalAmount += (b[1] / Math.pow(10, 18));
+      totalAddresses++;
+    })
+
+    this.setState({
+      totalAmount,
+      totalAddresses
+    })
   }
 
   componentWillUnmount() {
@@ -69,6 +82,20 @@ class Index extends PureComponent {
             <br/><br/>
             Enter your public key in the input box below to check the genesis balance.
           </p>
+          <p>
+            Initial total amount:
+            <Badge
+              text=<b>{formatNum(this.state.totalAmount, 0)}</b>
+              style={{backgroundColor: 'orange'}}
+            /> EDG
+          </p>
+          <p>
+            Initial total addresses:
+            <Badge
+              text=<b>{formatNum(this.state.totalAddresses)}</b>
+              style={{backgroundColor: 'orange'}}
+            />
+          </p>
           <SearchBar
             value={this.state.publicKey}
             onChange={(value) => {
@@ -95,7 +122,7 @@ class Index extends PureComponent {
             Public key:
             <Badge
               text={"0x" + this.state.publicKey.substring(0, 10) + "..." + this.state.publicKey.substr(-5)}
-              style={{ marginLeft: 12, padding: '0 3px', backgroundColor: '#21b68a', borderRadius: 2 }}
+              style={{backgroundColor: '#21b68a'}}
             />
             <br/> <br/>
             Balance:   <Badge text={(this.state.balance / Math.pow(10, 18)).toFixed(18)}/> EDG

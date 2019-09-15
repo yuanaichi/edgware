@@ -16,9 +16,7 @@ export default {
         ],
       },
       locale: {
-        enable: true, // default false
-        default: 'en-US', //默认语言 zh-CN
-        baseNavigator: true, // 为true时，用navigator.language的值作为默认语言
+        enable: false, // default false
       },
     }],
   ],
@@ -28,5 +26,7 @@ export default {
       changeOrigin: true
     }
   },
-  hash: true
+  hash: true,
+  base: '/edgware',
+  publicPath: "./"
 }
